@@ -10,7 +10,7 @@ object WatermarkApp {
   def main(args: Array[String]): Unit = {
     // Load the product image
 //    val imagePath = "/product.jpg"
-    val imagePath = "/bobur go'ja.jpeg"
+    val imagePath = "/9fb252ec-ef0d-4751-9d07-2000e9e32951.png"
     val borderImagePath = "/sale2.png"
     val image = ImmutableImage.loader.fromResource(imagePath)
     val borderImage = ImmutableImage.loader.fromResource(borderImagePath)
@@ -19,15 +19,12 @@ object WatermarkApp {
     val watermarkText = "Bobur Go'ja"
     val discountText = "50%"
     val salePriceText = "8000"
-    val uzsText = "UZS"
-    val watermarkFont = FontUtils.createFont("Arial", image.width * 4 / 100)
+    val watermarkFont = FontUtils.bold("Arial", image.width * 3 / 100)
     val discountFont = FontUtils.bold("Arial", image.width * 14 / 200)
-    val salePriceFont = FontUtils.bold("Arial", image.width * 14 / 300)
+    val salePriceFont = FontUtils.bold("Arial", image.width * 17 / 300)
     val uzsFont = FontUtils.bold("Arial", image.width * 7 / 300)
-    val discountColor = new RGBColor(255, 0, 0) // White color with some transparency
-    val watermarkColor = new RGBColor(255, 255, 255) // White color with some transparency
-
-    // Calculate the position to place the watermark (bottom right corner)
+    val discountColor = new RGBColor(255, 0, 0)
+    val watermarkColor = new RGBColor(255, 255, 255)
     val resizedBorderImage = borderImage.scaleTo(image.width, image.height)
     val combinedImage = image.overlay(resizedBorderImage, 0, 0)
     val watermarkedImage = combinedImage.draw(
@@ -42,7 +39,7 @@ object WatermarkApp {
       ),
       new Text(
         salePriceText,
-        image.width - (image.width * 39 / 40),
+        image.width - (image.width * 77 / 80),
         image.height - (image.height * 1 / 10),
         g => {
           g.setColor(watermarkColor)
@@ -50,9 +47,9 @@ object WatermarkApp {
         },
       ),
       new Text(
-        uzsText,
-        image.width - (image.width * 69 / 80),
-        image.height - (image.height * 1 / 10),
+        "UZS",
+        image.width - (image.width * 73 / 80),
+        image.height - (image.height * 5 / 80),
         g => {
           g.setColor(watermarkColor)
           g.setFont(uzsFont)
@@ -66,11 +63,11 @@ object WatermarkApp {
           g.setColor(discountColor)
           g.setFont(discountFont)
         },
-      )
+      ),
     )
 
     // Save the watermarked image
-    implicit val writer: JpegWriter = new JpegWriter()//.withCompression(100)
+    implicit val writer: JpegWriter = new JpegWriter() // .withCompression(100)
     val outputPath = "./watermarked-image.jpg"
     watermarkedImage.output(writer, new java.io.File(outputPath))
 
